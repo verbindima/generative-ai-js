@@ -1,31 +1,32 @@
-/**
- * @license
- * Copyright 2024 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// /**
+//  * @license
+//  * Copyright 2024 Google LLC
+//  *
+//  * Licensed under the Apache License, Version 2.0 (the "License");
+//  * you may not use this file except in compliance with the License.
+//  * You may obtain a copy of the License at
+//  *
+//  *   http://www.apache.org/licenses/LICENSE-2.0
+//  *
+//  * Unless required by applicable law or agreed to in writing, software
+//  * distributed under the License is distributed on an "AS IS" BASIS,
+//  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  * See the License for the specific language governing permissions and
+//  * limitations under the License.
+//  */
 
 import { RequestOptions } from "../../types";
 import { GoogleGenerativeAIError } from "../errors";
+import fetch, {RequestInit, Response} from 'node-fetch';
 
 const BASE_URL = "https://generativelanguage.googleapis.com";
 
 export const DEFAULT_API_VERSION = "v1";
 
-/**
- * We can't `require` package.json if this runs on web. We will use rollup to
- * swap in the version number here at build time.
- */
+// /**
+//  * We can't `require` package.json if this runs on web. We will use rollup to
+//  * swap in the version number here at build time.
+//  */
 const PACKAGE_VERSION = "__PACKAGE_VERSION__";
 const PACKAGE_LOG_HEADER = "genai-js";
 
@@ -82,11 +83,7 @@ export async function makeRequest(
     if (!response.ok) {
       let message = "";
       try {
-        const json = await response.json();
-        message = json.error.message;
-        if (json.error.details) {
-          message += ` ${JSON.stringify(json.error.details)}`;
-        }
+         message = JSON.stringify(response.json());
       } catch (e) {
         // ignored
       }
@@ -102,11 +99,12 @@ export async function makeRequest(
   return response;
 }
 
-/**
- * Generates the request options to be passed to the fetch API.
- * @param requestOptions - The user-defined request options.
- * @returns The generated request options.
- */
+// /**
+//  * Generates the request options to be passed to the fetch API.
+//  * @param requestOptions - The user-defined request options.
+//  * @returns The generated request options.
+//  */
+
 function buildFetchOptions(requestOptions?: RequestOptions): RequestInit {
   const fetchOptions = {} as RequestInit;
   if (requestOptions?.timeout >= 0) {
@@ -115,5 +113,9 @@ function buildFetchOptions(requestOptions?: RequestOptions): RequestInit {
     setTimeout(() => abortController.abort(), requestOptions.timeout);
     fetchOptions.signal = signal;
   }
-  return fetchOptions;
+  if (requestOptions?.agent) {
+    fetchOptions.agent = requestOptions.agent;
+  }
+
+return fetchOptions;
 }

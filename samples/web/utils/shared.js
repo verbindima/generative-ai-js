@@ -17,7 +17,7 @@
 
 import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 import { marked } from "https://esm.run/marked";
-
+import fetch from 'node-fetch';
 /**
  * Returns a model instance.
  *

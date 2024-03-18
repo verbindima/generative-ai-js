@@ -34,5 +34,5 @@ export async function countTokens(
     JSON.stringify({ ...params, model }),
     requestOptions,
   );
-  return response.json();
+  return response.json() as any as CountTokensResponse;
 }

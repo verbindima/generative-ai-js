@@ -24,6 +24,7 @@ import {
 } from "../../types";
 import { GoogleGenerativeAIError } from "../errors";
 import { addHelpers } from "./response-helpers";
+import { Response } from "node-fetch";
 
 const responseLineRE = /^data\: (.*)(?:\n\n|\r\r|\r\n\r\n)/;
 

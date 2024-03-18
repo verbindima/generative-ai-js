@@ -36,7 +36,7 @@ export async function embedContent(
     JSON.stringify(params),
     requestOptions,
   );
-  return response.json();
+  return response.json() as any as EmbedContentResponse;
 }
 
 export async function batchEmbedContents(
@@ -62,5 +62,5 @@ export async function batchEmbedContents(
     JSON.stringify({ requests: requestsWithModel }),
     requestOptions,
   );
-  return response.json();
+  return response.json() as any as BatchEmbedContentsResponse;
 }
