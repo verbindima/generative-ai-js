@@ -19,7 +19,6 @@ import {
   Content,
   GenerateContentRequest,
   GenerateContentResult,
-  GenerateContentStreamResult,
   Part,
   RequestOptions,
   StartChatParams,
@@ -27,12 +26,12 @@ import {
 import { formatNewContent } from "../requests/request-helpers";
 import { formatBlockErrorMessage } from "../requests/response-helpers";
 import { validateChatHistory } from "./chat-session-helpers";
-import { generateContent, generateContentStream } from "./generate-content";
+import { generateContent } from "./generate-content";
 
 /**
  * Do not log a message for this error.
  */
-const SILENT_ERROR = "SILENT_ERROR";
+// const SILENT_ERROR = "SILENT_ERROR";
 
 /**
  * ChatSession class that enables sending chat messages and stores
@@ -126,61 +125,61 @@ export class ChatSession {
    * {@link GenerateContentStreamResult} containing an iterable stream
    * and a response promise.
    */
-  async sendMessageStream(
-    request: string | Array<string | Part>,
-  ): Promise<GenerateContentStreamResult> {
-    await this._sendPromise;
-    const newContent = formatNewContent(request);
-    const generateContentRequest: GenerateContentRequest = {
-      safetySettings: this.params?.safetySettings,
-      generationConfig: this.params?.generationConfig,
-      tools: this.params?.tools,
-      contents: [...this._history, newContent],
-    };
-    const streamPromise = generateContentStream(
-      this._apiKey,
-      this.model,
-      generateContentRequest,
-      this.requestOptions,
-    );
+  // async sendMessageStream(
+  //   request: string | Array<string | Part>,
+  // ): Promise<GenerateContentStreamResult> {
+  //   await this._sendPromise;
+  //   const newContent = formatNewContent(request);
+  //   const generateContentRequest: GenerateContentRequest = {
+  //     safetySettings: this.params?.safetySettings,
+  //     generationConfig: this.params?.generationConfig,
+  //     tools: this.params?.tools,
+  //     contents: [...this._history, newContent],
+  //   };
+  //   const streamPromise = generateContentStream(
+  //     this._apiKey,
+  //     this.model,
+  //     generateContentRequest,
+  //     this.requestOptions,
+  //   );
 
-    // Add onto the chain.
-    this._sendPromise = this._sendPromise
-      .then(() => streamPromise)
-      // This must be handled to avoid unhandled rejection, but jump
-      // to the final catch block with a label to not log this error.
-      .catch((_ignored) => {
-        throw new Error(SILENT_ERROR);
-      })
-      .then((streamResult) => streamResult.response)
-      .then((response) => {
-        if (response.candidates && response.candidates.length > 0) {
-          this._history.push(newContent);
-          const responseContent = { ...response.candidates[0].content };
-          // Response seems to come back without a role set.
-          if (!responseContent.role) {
-            responseContent.role = "model";
-          }
-          this._history.push(responseContent);
-        } else {
-          const blockErrorMessage = formatBlockErrorMessage(response);
-          if (blockErrorMessage) {
-            console.warn(
-              `sendMessageStream() was unsuccessful. ${blockErrorMessage}. Inspect response object for details.`,
-            );
-          }
-        }
-      })
-      .catch((e) => {
-        // Errors in streamPromise are already catchable by the user as
-        // streamPromise is returned.
-        // Avoid duplicating the error message in logs.
-        if (e.message !== SILENT_ERROR) {
-          // Users do not have access to _sendPromise to catch errors
-          // downstream from streamPromise, so they should not throw.
-          console.error(e);
-        }
-      });
-    return streamPromise;
-  }
+  //   // Add onto the chain.
+  //   this._sendPromise = this._sendPromise
+  //     .then(() => streamPromise)
+  //     // This must be handled to avoid unhandled rejection, but jump
+  //     // to the final catch block with a label to not log this error.
+  //     .catch((_ignored) => {
+  //       throw new Error(SILENT_ERROR);
+  //     })
+  //     .then((streamResult) => streamResult.response)
+  //     .then((response) => {
+  //       if (response.candidates && response.candidates.length > 0) {
+  //         this._history.push(newContent);
+  //         const responseContent = { ...response.candidates[0].content };
+  //         // Response seems to come back without a role set.
+  //         if (!responseContent.role) {
+  //           responseContent.role = "model";
+  //         }
+  //         this._history.push(responseContent);
+  //       } else {
+  //         const blockErrorMessage = formatBlockErrorMessage(response);
+  //         if (blockErrorMessage) {
+  //           console.warn(
+  //             `sendMessageStream() was unsuccessful. ${blockErrorMessage}. Inspect response object for details.`,
+  //           );
+  //         }
+  //       }
+  //     })
+  //     .catch((e) => {
+  //       // Errors in streamPromise are already catchable by the user as
+  //       // streamPromise is returned.
+  //       // Avoid duplicating the error message in logs.
+  //       if (e.message !== SILENT_ERROR) {
+  //         // Users do not have access to _sendPromise to catch errors
+  //         // downstream from streamPromise, so they should not throw.
+  //         console.error(e);
+  //       }
+  //     });
+  //   return streamPromise;
+  // }
 }

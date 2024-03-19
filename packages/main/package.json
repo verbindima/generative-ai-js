@@ -1,7 +1,7 @@
 {
-  "name": "@google/generative-ai",
+  "name": "@chats/generative-ai",
   "version": "0.3.0",
-  "description": "Google AI JavaScript SDK",
+  "description": "Google AI JavaScript SDK with proxy agent",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "typings": "dist/generative-ai.d.ts",
@@ -32,14 +32,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/google/generative-ai-js.git"
+    "url": "git+https://github.com/verbindima/generative-ai-js.git"
   },
   "author": "",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/google/generative-ai-js/issues"
+    "url": "https://github.com/verbindima/generative-ai-js/issues"
   },
-  "homepage": "https://github.com/google/generative-ai-js#readme",
+  "homepage": "https://github.com/verbindima/generative-ai-js#readme",
   "dependencies": {
     "https-proxy-agent": "^7.0.4",
     "node-fetch": "^3.3.2"

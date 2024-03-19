@@ -17,7 +17,7 @@
 
 import {
   generateContent,
-  generateContentStream,
+  // generateContentStream,
 } from "../methods/generate-content";
 import {
   BatchEmbedContentsRequest,
@@ -28,7 +28,6 @@ import {
   EmbedContentResponse,
   GenerateContentRequest,
   GenerateContentResult,
-  GenerateContentStreamResult,
   GenerationConfig,
   ModelParams,
   Part,
@@ -101,22 +100,22 @@ export class GenerativeModel {
    * over all chunks in the streaming response as well as
    * a promise that returns the final aggregated response.
    */
-  async generateContentStream(
-    request: GenerateContentRequest | string | Array<string | Part>,
-  ): Promise<GenerateContentStreamResult> {
-    const formattedParams = formatGenerateContentInput(request);
-    return generateContentStream(
-      this.apiKey,
-      this.model,
-      {
-        generationConfig: this.generationConfig,
-        safetySettings: this.safetySettings,
-        tools: this.tools,
-        ...formattedParams,
-      },
-      this.requestOptions,
-    );
-  }
+  // async generateContentStream(
+  //   request: GenerateContentRequest | string | Array<string | Part>,
+  // ): Promise<GenerateContentStreamResult> {
+  //   const formattedParams = formatGenerateContentInput(request);
+  //   return generateContentStream(
+  //     this.apiKey,
+  //     this.model,
+  //     {
+  //       generationConfig: this.generationConfig,
+  //       safetySettings: this.safetySettings,
+  //       tools: this.tools,
+  //       ...formattedParams,
+  //     },
+  //     this.requestOptions,
+  //   );
+  // }
 
   /**
    * Gets a new {@link ChatSession} instance which can be used for

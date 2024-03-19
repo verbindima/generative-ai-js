@@ -36,6 +36,7 @@ export async function embedContent(
     JSON.stringify(params),
     requestOptions,
   );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return response.json() as any as EmbedContentResponse;
 }
 
@@ -62,5 +63,6 @@ export async function batchEmbedContents(
     JSON.stringify({ requests: requestsWithModel }),
     requestOptions,
   );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return response.json() as any as BatchEmbedContentsResponse;
 }

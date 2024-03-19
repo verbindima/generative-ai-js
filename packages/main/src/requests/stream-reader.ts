@@ -16,15 +16,14 @@
  */
 
 import {
-  EnhancedGenerateContentResponse,
+  // EnhancedGenerateContentResponse,
   GenerateContentCandidate,
   GenerateContentResponse,
-  GenerateContentStreamResult,
+  // GenerateContentStreamResult,
   Part,
 } from "../../types";
 import { GoogleGenerativeAIError } from "../errors";
-import { addHelpers } from "./response-helpers";
-import { Response } from "node-fetch";
+// import { addHelpers } from "./response-helpers";
 
 const responseLineRE = /^data\: (.*)(?:\n\n|\r\r|\r\n\r\n)/;
 
@@ -36,45 +35,45 @@ const responseLineRE = /^data\: (.*)(?:\n\n|\r\r|\r\n\r\n)/;
  *
  * @param response - Response from a fetch call
  */
-export function processStream(response: Response): GenerateContentStreamResult {
-  const inputStream = response.body!.pipeThrough(
-    new TextDecoderStream("utf8", { fatal: true }),
-  );
-  const responseStream =
-    getResponseStream<GenerateContentResponse>(inputStream);
-  const [stream1, stream2] = responseStream.tee();
-  return {
-    stream: generateResponseSequence(stream1),
-    response: getResponsePromise(stream2),
-  };
-}
+// export function processStream(response: Response): GenerateContentStreamResult {
+//   const inputStream = response.body!.pipeThrough(
+//     new TextDecoderStream("utf8", { fatal: true }),
+//   );
+//   const responseStream =
+//     getResponseStream<GenerateContentResponse>(inputStream);
+//   const [stream1, stream2] = responseStream.tee();
+//   return {
+//     stream: generateResponseSequence(stream1),
+//     response: getResponsePromise(stream2),
+//   };
+// }
 
-async function getResponsePromise(
-  stream: ReadableStream<GenerateContentResponse>,
-): Promise<EnhancedGenerateContentResponse> {
-  const allResponses: GenerateContentResponse[] = [];
-  const reader = stream.getReader();
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) {
-      return addHelpers(aggregateResponses(allResponses));
-    }
-    allResponses.push(value);
-  }
-}
+// async function getResponsePromise(
+//   stream: ReadableStream<GenerateContentResponse>,
+// ): Promise<EnhancedGenerateContentResponse> {
+//   const allResponses: GenerateContentResponse[] = [];
+//   const reader = stream.getReader();
+//   while (true) {
+//     const { done, value } = await reader.read();
+//     if (done) {
+//       return addHelpers(aggregateResponses(allResponses));
+//     }
+//     allResponses.push(value);
+//   }
+// }
 
-async function* generateResponseSequence(
-  stream: ReadableStream<GenerateContentResponse>,
-): AsyncGenerator<EnhancedGenerateContentResponse> {
-  const reader = stream.getReader();
-  while (true) {
-    const { value, done } = await reader.read();
-    if (done) {
-      break;
-    }
-    yield addHelpers(value);
-  }
-}
+// async function* generateResponseSequence(
+//   stream: ReadableStream<GenerateContentResponse>,
+// ): AsyncGenerator<EnhancedGenerateContentResponse> {
+//   const reader = stream.getReader();
+//   while (true) {
+//     const { value, done } = await reader.read();
+//     if (done) {
+//       break;
+//     }
+//     yield addHelpers(value);
+//   }
+// }
 
 /**
  * Reads a raw stream from the fetch response and join incomplete
