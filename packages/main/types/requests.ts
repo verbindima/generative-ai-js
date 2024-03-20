@@ -17,7 +17,6 @@
 
 import { Content } from "./content";
 import { HarmBlockThreshold, HarmCategory, TaskType } from "./enums";
-import { HttpsProxyAgent } from "https-proxy-agent";
 
 /**
  * Base parameters for a number of methods.
@@ -112,7 +111,11 @@ export interface RequestOptions {
    * Request timeout in milliseconds.
    */
   timeout?: number;
-  agent?: HttpsProxyAgent<string>
+  /**
+   * Request with proxy agent.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  agent?: any;
   /**
    * Version of API endpoint to call (e.g. "v1" or "v1beta"). If not specified,
    * defaults to latest stable version.

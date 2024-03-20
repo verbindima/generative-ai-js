@@ -1,5 +1,36 @@
 # @google/generative-ai
 
+## 0.3.5
+
+### Patch Changes
+
+- - Fix request options for count tokens request
+
+## 0.3.4
+
+### Patch Changes
+
+- Fix request options for count tokens request
+
+## 0.3.3
+
+### Patch Changes
+
+- Minor fix types
+
+## 0.3.2
+
+### Patch Changes
+
+- Fix node-fetch version
+
+## 0.3.1
+
+### Patch Changes
+
+- Add proxy agent in fetch options, remove generate cintent in stream
+- ccd9951: validateChatHistory is now checking that 'parts' property is an array
+
 ## 0.3.0
 
 ### Minor Changes

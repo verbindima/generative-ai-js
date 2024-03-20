@@ -1,6 +1,6 @@
 {
-  "name": "@chats/generative-ai",
-  "version": "0.3.0",
+  "name": "@verbindima/generative-ai",
+  "version": "0.3.5",
   "description": "Google AI JavaScript SDK with proxy agent",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -42,6 +42,9 @@
   "homepage": "https://github.com/verbindima/generative-ai-js#readme",
   "dependencies": {
     "https-proxy-agent": "^7.0.4",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "^2.6.11"
   }
 }
